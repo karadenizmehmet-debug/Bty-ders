@@ -2,10 +2,16 @@
 <html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="author" content="Mehmet Karadeniz, 2026-2027"><meta name="copyright" content="Mehmet Karadeniz, 2026-2027">
 <title>BTY Ders</title>
-<link rel="stylesheet" href="../../../motor/motor.css?v=4">
-</head><body>
+</head><body style="background:#0f1226;color:#f3f4ff">
 <!-- Bu sayfa yalnızca içeriği (veri.js) ve ortak motoru yükler. -->
-<script src="../../../surum.js?v=4"></script>
-<script src="veri.js?v=4"></script>
-<script src="../../../motor/motor.js?v=4"></script>
+<script>
+/* Yükleyici: sürüm numarasını her açılışta sunucudan taze alır ve dosyaları o sürümle yükler.
+   Böylece güncellemeler tarayıcı geçmişi silinmeden görünür. Bu blok değişmez; sürüm surum.js'tedir. */
+(function(K,L){var d=document;
+function ekle(u,cb){if(/\.css(\?|$)/.test(u)){var l=d.createElement("link");l.rel="stylesheet";l.href=u;d.head.appendChild(l);return}
+ var s=d.createElement("script");s.src=u;s.async=false;if(cb)s.onload=s.onerror=cb;d.body.appendChild(s)}
+ekle(K+"surum.js?t="+Date.now(),function(){var v=typeof SURUM!=="undefined"?SURUM:String(Date.now());
+ for(var i=0;i<L.length;i++)ekle(L[i]+"?v="+encodeURIComponent(v))})
+})("../../../",["../../../motor/motor.css","veri.js","../../../motor/motor.js"]);
+</script>
 </body></html>

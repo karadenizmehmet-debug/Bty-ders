@@ -7,7 +7,9 @@
 ## Klasör yapısı
 
 ```
-index.html            Giriş: ders seçimi → yazılı seçimi
+index.html            Giriş (yalnızca yükleyici)
+giris/                Giriş sayfasının tasarımı ve kodu
+surum.js              Sürüm numarası
 katalog.js            Dersler ve hangi yazılıların hazır olduğu
 motor/
   motor.js            Ortak kod (tüm uygulamalar bunu kullanır)
@@ -45,7 +47,7 @@ Yazılı klasör adları: `1-donem-1-yazili`, `1-donem-2-yazili`, `2-donem-1-yaz
 
 ## Sürüm
 
-`surum.js` içindeki `SURUM` her güncellemede bir artırılır; giriş sayfasının üstünde ve uygulamaların altında görünür. Aynı numara sayfalardaki `?v=` eklerine de yazılır, böylece tarayıcı eski dosyaları önbellekten getirmez.
+`surum.js` içindeki `SURUM` her güncellemede bir artırılır; giriş sayfasının üstünde ve uygulamaların altında görünür. Sayfalar açılırken `surum.js` dosyasını her seferinde sunucudan taze alır ve diğer dosyaları bu numarayla yükler; bu yüzden güncellemeler tarayıcı geçmişi silinmeden görünür. HTML dosyaları yalnızca bu yükleyiciyi içerir ve değişmez; giriş sayfasının kodu `giris/` klasöründedir.
 
 ## PDF şifresi
 
