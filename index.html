@@ -11,6 +11,6 @@ function ekle(u,cb){if(/\.css(\?|$)/.test(u)){var l=d.createElement("link");l.re
  var s=d.createElement("script");s.src=u;s.async=false;if(cb)s.onload=s.onerror=cb;d.body.appendChild(s)}
 ekle(K+"surum.js?t="+Date.now(),function(){var v=typeof SURUM!=="undefined"?SURUM:String(Date.now());
  for(var i=0;i<L.length;i++)ekle(L[i]+"?v="+encodeURIComponent(v))})
-})("",["giris/giris.css","katalog.js","giris/giris.js"]);
+})("",["giris/giris.css","katalog.js","giris/giris.js","giris/paket.js"]);
 </script>
 </body></html>

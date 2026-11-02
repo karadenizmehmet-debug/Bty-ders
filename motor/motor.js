@@ -175,7 +175,7 @@ function draw(){const key=mode+si+qi+gi;if(key!=lk){lk=key;z=1;tx=ty=0;ap();$("#
 ["tl","tg","tm","tq","tp"].forEach((id,i)=>$("#"+id).classList.toggle("on",mode==["learn","gloss","menu","quiz","pdf"][i]));
 $("#nx").textContent="İleri ▶";({home,learn,gloss,menu,quiz,pdf:pdfv})[mode]()}
 
-$("#hm").onclick=()=>{const m=location.pathname.match(/dersler\/([^/]+)\//);location.href=KOK+"index.html"+(m?"#"+m[1]:"")};
+$("#hm").onclick=()=>{try{if(window.parent!==window&&parent.BTY_EV)return parent.BTY_EV()}catch(e){}const m=location.pathname.match(/dersler\/([^/]+)\//);location.href=KOK+"index.html"+(m?"#"+m[1]:"")};
 $("#tl").onclick=()=>{mode="learn";draw()};$("#tg").onclick=()=>{mode="gloss";draw()};$("#tq").onclick=()=>{mode="quiz";draw()};$("#tm").onclick=()=>{mode="menu";draw()};$("#tp").onclick=()=>askPw(()=>{mode="pdf";draw()});
 $("#pv").onclick=()=>{if(mode=="learn"){if(si>0)si--;else mode="home"}else if(mode=="gloss"){if(gi>0)gi--;else{mode="learn";si=S.length-1}}else if(mode=="quiz"){if(qi>0)qi--;else mode="menu"}else if(mode=="menu"){mode="gloss";gi=WN-1}else if(mode=="pdf")mode="menu";draw()};
 $("#nx").onclick=()=>{if(mode=="home"){mode="learn";si=0}else if(mode=="learn"){if(si<S.length-1)si++;else{mode="gloss";gi=0}}else if(mode=="gloss"){if(gi<WN-1)gi++;else mode="menu"}else if(mode=="menu"){mode="quiz";qi=0}else if(mode=="quiz"){

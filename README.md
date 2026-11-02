@@ -50,6 +50,10 @@ Yazılı klasör adları: `1-donem-1-yazili`, `1-donem-2-yazili`, `2-donem-1-yaz
 
 `surum.js` içindeki `SURUM` her güncellemede bir artırılır; giriş sayfasının üstünde ve uygulamaların altında görünür. Sayfalar açılırken `surum.js` dosyasını her seferinde sunucudan taze alır ve diğer dosyaları bu numarayla yükler; bu yüzden güncellemeler tarayıcı geçmişi silinmeden görünür. HTML dosyaları yalnızca bu yükleyiciyi içerir ve değişmez; giriş sayfasının kodu `giris/` klasöründedir.
 
+## Çevrimdışı HTML
+
+Giriş sayfasının en altındaki **HTML indir** düğmesi (PDF ile aynı şifre) tüm dersleri tek bir `.html` dosyası olarak indirir (`giris/paket.js`). Dosya internet olmadan, çift tıklanarak açılır; PDF indirme de içinde çalışır.
+
 ## PDF şifresi
 
 PDF bölümü şifreyle açılır. Şifre kodda açık yazılmaz, yalnızca özeti saklanır (`motor/motor.js` → `PWH`). Bu yalnızca meraklı gözlerden gizler; gerçek bir güvenlik değildir.
