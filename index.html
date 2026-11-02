@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="author" content="Mehmet Karadeniz, 2026-2027"><meta name="copyright" content="Mehmet Karadeniz, 2026-2027">
+<title>BTY Yazılıya Hazırlık</title>
+<style>
+/* Giriş sayfası · ders ve yazılı seçimi. Soru-cevap sayfalarıyla aynı koyu neon tasarım. */
+:root{color-scheme:dark;--bg:#0f1226;--card:#1b1f3b;--ac:#ff6b9d;--ac2:#4cc9f0;--ok:#2ee6a6;--hint:#ffd166;--tx:#f3f4ff;--mut:#c7c9e8}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,#2a1b5e,#0f1226 60%) fixed;background-color:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;padding:clamp(16px,3vw,40px) clamp(16px,4vw,56px)}
+header{display:flex;align-items:center;gap:12px;margin-bottom:clamp(16px,3vh,32px)}
+header h1{flex:1;font-size:clamp(22px,2.6vw,34px);background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{border:0;border-radius:30px;padding:10px 18px;font-size:clamp(15px,1.4vw,19px);font-weight:700;color:var(--tx);background:#ffffff18;cursor:pointer}
+.btn:hover{background:#ffffff26}
+button:focus-visible,a:focus-visible{outline:3px solid var(--ac2);outline-offset:3px}
+main{flex:1;display:flex;flex-direction:column;justify-content:center}
+h2{font-size:clamp(26px,3.4vw,48px);margin-bottom:6px;text-wrap:balance}
+.sub{font-size:clamp(16px,1.6vw,22px);color:var(--mut);margin-bottom:clamp(18px,3.5vh,36px)}
+.grid{display:grid;gap:clamp(12px,2vw,26px);grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.card{display:flex;flex-direction:column;gap:8px;text-align:left;border:2px solid #ffffff1a;background:linear-gradient(160deg,#1f2447,#171a3a);color:var(--tx);border-radius:24px;padding:clamp(18px,2.4vw,32px);cursor:pointer;text-decoration:none;animation:up .4s both;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--ac2);transform:translateY(-3px)}
+.card:nth-child(2){animation-delay:.07s}.card:nth-child(3){animation-delay:.14s}.card:nth-child(4){animation-delay:.21s}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+.card .em{font-size:clamp(48px,5.5vw,80px);line-height:1}
+.card b{font-size:clamp(26px,2.8vw,40px)}
+.card span{font-size:clamp(16px,1.5vw,21px);color:var(--mut);line-height:1.3}
+.card .st{margin-top:auto;padding-top:8px;font-size:clamp(13px,1.1vw,15px);font-weight:800;letter-spacing:.5px;color:var(--ac2)}
+.card.off{cursor:default;opacity:.45;border-style:dashed}
+.card.off:hover{border-color:#ffffff1a;transform:none}
+.card.off .st{color:var(--mut)}
+.yz .card b{font-size:clamp(22px,2.2vw,32px)}
+footer{text-align:center;font-size:12px;opacity:.55;margin-top:24px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header><h1>💻 BTY Yazılıya Hazırlık</h1><button class="btn" id="geri" hidden>◀ Dersler</button><button class="btn" id="fs" title="Tam ekran" aria-label="Tam ekran">⛶</button></header>
+<main id="ana"></main>
+<footer>© Mehmet Karadeniz, 2026-2027</footer>
+<script src="katalog.js"></script>
+<script>
+(function(){
+const ana=document.getElementById("ana"),geri=document.getElementById("geri");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+function dersler(){
+ geri.hidden=true;document.title="BTY Yazılıya Hazırlık";
+ ana.innerHTML=`<h2>Hangi ders?</h2><p class="sub">Dersini seç, sonra hazırlanacağın yazılıyı seç.</p><div class="grid">`+
+ DERSLER.map(d=>{const n=YAZILILAR.filter(y=>d.hazir[y.id]).length;
+  return `<a class="card" href="#${esc(d.id)}"><div class="em">${d.emoji}</div><b>${esc(d.ad)}</b><span>${esc(d.alt)}</span><div class="st">${n} yazılı hazır</div></a>`}).join("")+`</div>`}
+function yazililar(d){
+ geri.hidden=false;document.title=d.ad+" · "+d.alt;
+ ana.innerHTML=`<h2>${d.emoji} ${esc(d.ad)} · ${esc(d.alt)}</h2><p class="sub">Hangi yazılıya hazırlanıyorsun?</p><div class="grid yz">`+
+ YAZILILAR.map(y=>d.hazir[y.id]
+  ?`<a class="card" href="dersler/${esc(d.id)}/${esc(y.id)}/"><div class="em">📝</div><b>${esc(y.ad)}</b><span>Konu özeti, sözlük ve sorular</span><div class="st">▶ Başla</div></a>`
+  :`<div class="card off" aria-disabled="true"><div class="em">⏳</div><b>${esc(y.ad)}</b><span>Henüz hazır değil</span><div class="st">Yakında</div></div>`).join("")+`</div>`}
+function goster(){const id=decodeURIComponent(location.hash.slice(1)),d=DERSLER.find(x=>x.id===id);d?yazililar(d):dersler();scrollTo(0,0)}
+geri.onclick=()=>{location.hash=""};
+addEventListener("hashchange",goster);goster();
+document.getElementById("fs").onclick=()=>{const d=document,e=d.documentElement;try{const on=d.fullscreenElement||d.webkitFullscreenElement;const p=on?(d.exitFullscreen||d.webkitExitFullscreen).call(d):(e.requestFullscreen||e.webkitRequestFullscreen).call(e);if(p&&p.catch)p.catch(()=>{})}catch(x){}};
+})();
+</script>
+</body></html>
