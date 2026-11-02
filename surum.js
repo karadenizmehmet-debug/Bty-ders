@@ -1,2 +1,2 @@
 /* Sürüm etiketi: her güncellemede bir artırılır (giriş sayfasında ve uygulamaların altında görünür). */
-const SURUM="v6";
+const SURUM="v7";
