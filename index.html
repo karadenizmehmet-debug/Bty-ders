@@ -44,8 +44,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 function dersler(){
  geri.hidden=true;document.title="BTY Yazılıya Hazırlık";
  ana.innerHTML=`<h2>Hangi ders?</h2><p class="sub">Dersini seç, sonra hazırlanacağın yazılıyı seç.</p><div class="grid">`+
- DERSLER.map(d=>{const n=YAZILILAR.filter(y=>d.hazir[y.id]).length;
-  return `<a class="card" href="#${esc(d.id)}"><div class="em">${d.emoji}</div><b>${esc(d.ad)}</b><span>${esc(d.alt)}</span><div class="st">${n} yazılı hazır</div></a>`}).join("")+`</div>`}
+ DERSLER.map(d=>`<a class="card" href="#${esc(d.id)}"><div class="em">${d.emoji}</div><b>${esc(d.ad)}</b><span>${esc(d.alt)}</span><div class="st">Konu özeti, örnek sorular</div></a>`).join("")+`</div>`}
 function yazililar(d){
  geri.hidden=false;document.title=d.ad+" · "+d.alt;
  ana.innerHTML=`<h2>${d.emoji} ${esc(d.ad)} · ${esc(d.alt)}</h2><p class="sub">Hangi yazılıya hazırlanıyorsun?</p><div class="grid yz">`+
