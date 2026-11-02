@@ -43,6 +43,10 @@ Yazılı klasör adları: `1-donem-1-yazili`, `1-donem-2-yazili`, `2-donem-1-yaz
 | `t` | Soru türü etiketi |
 | `q`, `h`, `a` | Soru, ipucu, cevap |
 
+## Sürüm
+
+`surum.js` içindeki `SURUM` her güncellemede bir artırılır; giriş sayfasının üstünde ve uygulamaların altında görünür. Aynı numara sayfalardaki `?v=` eklerine de yazılır, böylece tarayıcı eski dosyaları önbellekten getirmez.
+
 ## PDF şifresi
 
 PDF bölümü şifreyle açılır. Şifre kodda açık yazılmaz, yalnızca özeti saklanır (`motor/motor.js` → `PWH`). Bu yalnızca meraklı gözlerden gizler; gerçek bir güvenlik değildir.
