@@ -141,10 +141,12 @@ function askPw(ok){if(unlocked)return ok();const w=$("#pw"),i=$("#pwi"),er=$("#p
 /* PDF: dar kenar boşlukları; 2 sayfayı geçerse yazı ve satırlar küçültülerek yeniden dizilir */
 const LV=[{fs:12.5,af:12,ln:3,lg:19,qg:12},{fs:11.5,af:11,ln:2,lg:17,qg:9},{fs:10.5,af:10,ln:1,lg:15,qg:7},{fs:9.5,af:9.5,ln:1,lg:13,qg:5}];
 function buildDoc(list,withA,L,pc){const PW=539,body=[];
- list.forEach((x,i)=>{
-  body.push({text:[{text:(i+1)+". ",bold:true,color:"#c2185b"},plain(x.q)],fontSize:L.fs,bold:true,margin:[0,i?L.qg:0,0,4],lineHeight:1.2});
-  if(withA)body.push({text:[{text:"Cevap: ",bold:true,color:"#0f8a5f"},(x.p||plain(x.a))],fontSize:L.af,margin:[12,0,0,0],lineHeight:1.2});
-  else for(let k=0;k<L.ln;k++)body.push({canvas:[{type:"line",x1:12,y1:0,x2:PW,y2:0,lineWidth:.6,lineColor:"#9aa0b4",dash:{length:2}}],margin:[0,L.lg,0,0]});
+ /* Her soru, cevabı (ya da cevap satırları) ile tek blok: sayfa sonunda bölünmez, gerekirse bütün olarak sonraki sayfaya geçer */
+ list.forEach((x,i)=>{const blk=[];
+  blk.push({text:[{text:(i+1)+". ",bold:true,color:"#c2185b"},plain(x.q)],fontSize:L.fs,bold:true,margin:[0,0,0,4],lineHeight:1.2});
+  if(withA)blk.push({text:[{text:"Cevap: ",bold:true,color:"#0f8a5f"},(x.p||plain(x.a))],fontSize:L.af,margin:[12,0,0,0],lineHeight:1.2});
+  else for(let k=0;k<L.ln;k++)blk.push({canvas:[{type:"line",x1:12,y1:0,x2:PW,y2:0,lineWidth:.6,lineColor:"#9aa0b4",dash:{length:2}}],margin:[0,L.lg,0,0]});
+  body.push({stack:blk,unbreakable:true,margin:[0,i?L.qg:0,0,0]});
  });
  return{pageSize:"A4",pageMargins:[28,28,28,32],info:{title:B.ders+" "+B.sinav+" "+(withA?"Soru ve Cevaplar":"Sorular"),author:"Mehmet Karadeniz, 2026-2027"},
   content:[{columns:[{text:[{text:B.pdfBaslik+"  ",fontSize:15,bold:true,color:"#3b2b8f"},{text:B.sinav+" · "+(withA?"Sorular ve Cevaplar":"Sorular"),fontSize:11.5,color:"#555"}]},
