@@ -10,6 +10,7 @@ html,body{height:100%;touch-action:none;-webkit-user-select:none;user-select:non
 .tab{border:0;padding:10px 15px;border-radius:30px;font-size:17px;font-weight:700;color:var(--tx);background:#ffffff14;cursor:pointer;white-space:nowrap}
 .tab.on{background:linear-gradient(90deg,var(--ac),#8a5cff)}
 .zb{padding:8px 13px;font-size:16px}
+.tab i{font-style:normal}.zb span{display:none}
 button:focus-visible{outline:3px solid var(--ac2);outline-offset:2px}
 #main{flex:1;min-height:0;overflow:hidden;touch-action:none;position:relative}
 #zin{height:100%;padding:8px 0;display:flex;flex-direction:column;transform-origin:0 0}
@@ -102,10 +103,12 @@ h2{font-size:34px;margin-bottom:6px;text-wrap:balance}
 /* ---- Dikey (telefon) düzeni ---- */
 body.port,html:has(body.port){touch-action:pan-y}
 .port #stage{padding:10px 12px;border-radius:0;box-shadow:none}
-.port #top{flex-wrap:wrap;height:auto;gap:6px;margin-bottom:6px}
-.port #top h1{flex:1 0 100%;font-size:19px;order:-1}
-.port .tab{font-size:14px;padding:7px 11px}
-.port #zm,.port #zl,.port #zp{display:none}
+.port #top{display:grid;grid-template-columns:repeat(7,1fr);height:auto;gap:5px;margin-bottom:8px}
+.port #top h1{grid-column:1/-1;font-size:18px;order:-1;text-align:center}
+.port #top .tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 0;border-radius:14px;font-size:11.5px;min-width:0}
+.port #top .tab i{font-size:21px}
+.port #top .tab span{display:block;white-space:nowrap}
+.port #top #zm,.port #top #zl,.port #top #zp{display:none}
 .port #main{overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch}
 .port #zin{height:auto;min-height:100%;transform:none!important}
 .port h2{font-size:24px}.port .intro{font-size:16px}.port .oc{display:inline-block;margin:4px 0 0;vertical-align:0}

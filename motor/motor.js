@@ -19,13 +19,13 @@ const isF=x=>!!(x.f||x.p);
 /* ---------- İSKELET ---------- */
 document.title=`${B.ders} · ${B.sinav}`;
 document.body.insertAdjacentHTML("afterbegin",`<div id="stage">
-<div id="top"><button class="tab zb" id="hm" title="Ders seçimine dön" aria-label="Ana sayfa">🏠</button><h1>${B.emoji} ${B.ders} · ${B.sinav}</h1>
-<button class="tab" id="tl">📖 Özet</button>
-<button class="tab" id="tg">📚 Sözlük</button>
-<button class="tab" id="tm">📋 Menü</button>
-<button class="tab" id="tq">❓ Sorular</button>
-<button class="tab" id="tp">📄 PDF</button>
-<button class="tab zb" id="zm" title="Uzaklaştır">🔍−</button><button class="tab zb" id="zl" title="Yakınlaştırmayı sıfırla">100%</button><button class="tab zb" id="zp" title="Yakınlaştır">🔍+</button><button class="tab zb" id="fs" title="Tam ekran">⛶</button></div>
+<div id="top"><button class="tab zb" id="hm" title="Ders seçimine dön" aria-label="Ana sayfa"><i>🏠</i><span>Dersler</span></button><h1>${B.emoji} ${B.ders} · ${B.sinav}</h1>
+<button class="tab" id="tl"><i>📖</i> <span>Özet</span></button>
+<button class="tab" id="tg"><i>📚</i> <span>Sözlük</span></button>
+<button class="tab" id="tm"><i>📋</i> <span>Menü</span></button>
+<button class="tab" id="tq"><i>❓</i> <span>Sorular</span></button>
+<button class="tab" id="tp"><i>📄</i> <span>PDF</span></button>
+<button class="tab zb" id="zm" title="Uzaklaştır">🔍−</button><button class="tab zb" id="zl" title="Yakınlaştırmayı sıfırla">100%</button><button class="tab zb" id="zp" title="Yakınlaştır">🔍+</button><button class="tab zb" id="fs" title="Tam ekran"><i>⛶</i><span>Ekran</span></button></div>
 <div id="main"><div id="zin"></div></div>
 <div id="nav"><button id="pv">◀ Geri</button><div id="dots"></div><button id="nx">İleri ▶</button></div>
 <div id="cr">© Mehmet Karadeniz, 2026-2027${typeof SURUM!=="undefined"?" · "+SURUM:""}</div>
