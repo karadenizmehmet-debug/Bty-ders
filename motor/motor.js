@@ -28,7 +28,7 @@ document.body.insertAdjacentHTML("afterbegin",`<div id="stage">
 <button class="tab zb" id="zm" title="Uzaklaştır">🔍−</button><button class="tab zb" id="zl" title="Yakınlaştırmayı sıfırla">100%</button><button class="tab zb" id="zp" title="Yakınlaştır">🔍+</button><button class="tab zb" id="fs" title="Tam ekran">⛶</button></div>
 <div id="main"><div id="zin"></div></div>
 <div id="nav"><button id="pv">◀ Geri</button><div id="dots"></div><button id="nx">İleri ▶</button></div>
-<div id="cr">© Mehmet Karadeniz, 2026-2027</div>
+<div id="cr">© Mehmet Karadeniz, 2026-2027${typeof SURUM!=="undefined"?" · "+SURUM:""}</div>
 <div id="toast" hidden></div>
 <div id="pw" hidden><div class="pwb"><div class="pwt">🔒 PDF bölümü için şifre girin</div>
 <input id="pwi" type="password" inputmode="numeric" autocomplete="off" aria-label="Şifre">
