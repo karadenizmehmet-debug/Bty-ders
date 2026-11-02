@@ -163,7 +163,7 @@ function buildDoc(list,withA,L,pc){const PW=539,body=[];
 async function makePdf(withA,lvl){
 if(busy)return;busy=true;toast("PDF hazırlanıyor…");
 try{
- if(!window.pdfMake||!pdfMake.vfs){await loadJs("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js");await loadJs("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js")}
+ if(!window.pdfMake||!pdfMake.vfs){const LB=document.querySelector('script[src*="motor/motor.js"]').src.replace(/motor\.js.*$/,"lib/");await loadJs(LB+"pdfmake.min.js");await loadJs(LB+"vfs_fonts.js")}
  const list=Q.filter((_,i)=>sel[i]);let blob,pc={n:0};
  for(const L of LV){pc={n:0};blob=await new Promise(r=>pdfMake.createPdf(buildDoc(list,withA,L,pc)).getBlob(r));if(pc.n<=2)break}
  await saveFile(B.dosya+(withA?"_Soru_Cevap":"_Sorular"+(lvl?"_"+lvl:""))+".pdf",blob);
