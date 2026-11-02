@@ -44,6 +44,7 @@ Yazılı klasör adları: `1-donem-1-yazili`, `1-donem-2-yazili`, `2-donem-1-yaz
 | `s` | Menüde görünen kısa başlık |
 | `t` | Soru türü etiketi |
 | `q`, `h`, `a` | Soru, ipucu, cevap |
+| `g` | Soru görseli (isteğe bağlı): tablo, grafik, ses, sira, cizim, telefon, klasor, veriseti — ayrıntılar `motor/gorsel.js` başında |
 
 ## Sürüm
 
