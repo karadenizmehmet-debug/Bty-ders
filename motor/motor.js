@@ -45,7 +45,7 @@ let mode="home",si=0,qi=0,gi=0,st=Q.map(()=>0);
 let z=1,tx=0,ty=0,lk="";
 /* Ekran dikeyse (telefon) 480 px genişlikte dikey düzen, yataysa 1280x720 tahta düzeni */
 let PORT=false;
-function fit(){const sg=$("#stage"),w=innerWidth,h=innerHeight,p=h>w;
+function fit(){const sg=$("#stage"),de=document.documentElement,w=de.clientWidth||innerWidth,h=de.clientHeight||innerHeight,p=h>w;
  if(p!==PORT){PORT=p;document.body.classList.toggle("port",p);z=1;tx=ty=0;ap()}
  if(p){const k=w/480;sg.style.width="480px";sg.style.height=(h/k)+"px";sg.style.transform=`translate(-50%,-50%) scale(${k})`}
  else{const k=Math.min(w/1280,h/720)*.98;sg.style.width="1280px";sg.style.height="720px";sg.style.transform=`translate(-50%,-50%) scale(${k})`}}
