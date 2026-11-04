@@ -66,3 +66,7 @@ PDF bölümü şifreyle açılır. Şifre kodda açık yazılmaz, yalnızca öze
 
 ---
 © Mehmet Karadeniz, 2026-2027
+
+## Lisans
+
+© Mehmet Karadeniz, 2026-2027. Tüm hakları saklıdır. Ayrıntı için [LICENSE](LICENSE) dosyasına bak.
