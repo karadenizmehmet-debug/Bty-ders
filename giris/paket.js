@@ -46,10 +46,10 @@ function ac(){
 /* ---------- paketleme ---------- */
 async function al(yol){const r=await fetch(yol+"?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error(yol);return r.text()}
 async function indir(){
- const ad=["surum.js","katalog.js","giris/giris.css","giris/giris.js","motor/motor.css","motor/motor.js","motor/gorsel.js","motor/lib/pdfmake.min.js","motor/lib/vfs_fonts.js"];
+ const ad=["surum.js","katalog.js","giris/giris.css","giris/giris.js","motor/motor.css","motor/motor.js","motor/gorsel.js","motor/istasyon.js","motor/lib/pdfmake.min.js","motor/lib/vfs_fonts.js"];
  const F={};await Promise.all(ad.map(async a=>F[a]=await al(a)));
- const V={};
- for(const d of DERSLER)for(const y of YAZILILAR)if(d.hazir[y.id]){const k=d.id+"/"+y.id;V[k]=await al("dersler/"+k+"/veri.js")}
+ const V={},IS={};
+ for(const d of DERSLER)for(const y of YAZILILAR)if(d.hazir[y.id]){const k=d.id+"/"+y.id;V[k]=await al("dersler/"+k+"/veri.js");try{IS[k]=await al("dersler/"+k+"/istasyon.js")}catch(x){}}
  const surum=(F["surum.js"].match(/SURUM\s*=\s*"([^"]+)"/)||[])[1]||"";
  const html=`<!doctype html>
 <html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
@@ -64,7 +64,7 @@ async function indir(){
 <script>${guvenli(F["motor/lib/pdfmake.min.js"])}</script>
 <script>${guvenli(F["motor/lib/vfs_fonts.js"])}</script>
 <script>
-var PAKET={css:${dize(F["motor/motor.css"])},surum:${dize(F["surum.js"])},gorsel:${dize(F["motor/gorsel.js"])},motor:${dize(F["motor/motor.js"])},veri:{${Object.keys(V).map(k=>JSON.stringify(k)+":"+dize(V[k])).join(",")}}};
+var PAKET={css:${dize(F["motor/motor.css"])},surum:${dize(F["surum.js"])},gorsel:${dize(F["motor/gorsel.js"])},istasyon:${dize(F["motor/istasyon.js"])},ist:{${Object.keys(IS).map(k=>JSON.stringify(k)+":"+dize(IS[k])).join(",")}},motor:${dize(F["motor/motor.js"])},veri:{${Object.keys(V).map(k=>JSON.stringify(k)+":"+dize(V[k])).join(",")}}};
 </script>
 <script>${guvenli(F["giris/giris.js"])}</script>
 <script>
@@ -72,7 +72,7 @@ var PAKET={css:${dize(F["motor/motor.css"])},surum:${dize(F["surum.js"])},gorsel
 (function(){
  var E="<"+"/script>",fr=null;
  function sayfa(k){return "<!doctype html><html lang=\\"tr\\"><head><meta charset=\\"utf-8\\"><meta name=\\"viewport\\" content=\\"width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no\\"><style>"+PAKET.css+"</style></head><body style=\\"background:#0f1226;color:#f3f4ff\\">"+
-  "<script>try{window.pdfMake=parent.pdfMake}catch(e){}"+E+"<script>"+guv(PAKET.surum)+E+"<script>"+guv(PAKET.veri[k])+E+"<script>"+guv(PAKET.gorsel)+E+"<script>"+guv(PAKET.motor)+E+"</body></html>"}
+  "<script>try{window.pdfMake=parent.pdfMake}catch(e){}"+E+"<script>"+guv(PAKET.surum)+E+"<script>"+guv(PAKET.veri[k])+E+"<script>"+guv(PAKET.gorsel)+E+"<script>"+guv(PAKET.istasyon)+E+(PAKET.ist[k]?"<script>"+guv(PAKET.ist[k])+E:"")+"<script>"+guv(PAKET.motor)+E+"</body></html>"}
  function guv(t){return t.replace(/<\\/(script)/gi,"<\\\\/$1")}
  function ac(k){kapat();fr=document.createElement("iframe");fr.id="ders";fr.setAttribute("allow","fullscreen");fr.setAttribute("allowfullscreen","");
   fr.srcdoc=sayfa(k);document.body.appendChild(fr);try{fr.focus()}catch(e){}}

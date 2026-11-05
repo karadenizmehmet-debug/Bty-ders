@@ -14,10 +14,11 @@ katalog.js            Dersler ve hangi yazılıların hazır olduğu
 motor/
   motor.js            Ortak kod (tüm uygulamalar bunu kullanır)
   motor.css           Ortak tasarım
+  istasyon.js         Pekiştirme İstasyonu çizicisi
 dersler/
-  5-sinif/1-donem-1-yazili/      index.html + veri.js
-  6-sinif/1-donem-1-yazili/      index.html + veri.js
-  7-yapay-zeka/1-donem-1-yazili/ index.html + veri.js
+  5-sinif/1-donem-1-yazili/      index.html + veri.js + istasyon.js
+  6-sinif/1-donem-1-yazili/      index.html + veri.js + istasyon.js
+  7-yapay-zeka/1-donem-1-yazili/ index.html + veri.js + istasyon.js
 ```
 
 Her yazılı klasörü yalnızca **içerik** taşır (`veri.js`). Tasarımdaki ya da koddaki bir düzeltme `motor/` içinde yapılır ve tüm derslere aynı anda yansır.
@@ -33,6 +34,12 @@ Yazılı klasör adları: `1-donem-1-yazili`, `1-donem-2-yazili`, `2-donem-1-yaz
    - `S` – konu özeti sayfaları, `W` – sözlük, `Q` – sorular
    - `OC`, `OCN`, `SEN` (isteğe bağlı) – öğrenme çıktıları ve 10 soruluk sınav dağılımı. Tanımlanırsa Basit / Orta / Zor PDF'leri bu dağılıma birebir uyar.
 4. `katalog.js` içinde o dersin `hazir` listesine yazılıyı ekle: `"1-donem-2-yazili":true`
+
+## Pekiştirme İstasyonu
+
+Ana ekrandaki **🎯 Pekiştirme İstasyonu** düğmesi (ve üstteki İstasyon sekmesi) öğrencinin konuyu anlaması için 7 etkinlik açar: Bilim Dedektifi, Doğru mu Yanlış mı, Test, Eşleştirme, Boşluk Doldurma, Sıralama, Klasik Sorular. Her etkinlikte en çok 3 yıldız kazanılır (%50 → 1, %75 → 2, %90 → 3); yıldızlar tarayıcıda saklanır. PDF yoktur.
+
+İçerik her yazılı klasöründeki `istasyon.js` dosyasındadır (`IST` nesnesi; alanlar `motor/istasyon.js` başında yazılıdır). Dosya yoksa düğme "henüz hazır değil" uyarısı verir. Yeni bir yazılı eklerken `veri.js` ile birlikte `istasyon.js` de yazılabilir.
 
 ## Soru alanları
 

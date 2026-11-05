@@ -24,6 +24,7 @@ document.body.insertAdjacentHTML("afterbegin",`<div id="stage">
 <button class="tab" id="tg"><i>📚</i> <span>Sözlük</span></button>
 <button class="tab" id="tm"><i>📋</i> <span>Menü</span></button>
 <button class="tab" id="tq"><i>❓</i> <span>Sorular</span></button>
+<button class="tab" id="ti"><i>🎯</i> <span>İstasyon</span></button>
 <button class="tab" id="tp"><i>📄</i> <span>PDF</span></button>
 <button class="tab zb" id="zm" title="Uzaklaştır">🔍−</button><button class="tab zb" id="zl" title="Yakınlaştırmayı sıfırla">100%</button><button class="tab zb" id="zp" title="Yakınlaştır">🔍+</button><button class="tab zb" id="fs" title="Tam ekran"><i>⛶</i><span>Ekran</span></button></div>
 <div id="main"><div id="zin"></div></div>
@@ -55,8 +56,8 @@ const ocTag=o=>HAS_OC&&o!=null?OC[o]:"";
 
 function home(){
 Z.innerHTML=`<div class="hero"><div class="big">${B.emoji}</div><h2>${B.baslik}</h2><p>${B.ders.replace(/^BTY /,"")} · ${B.sinav}ya Hazırlık. Önce konu özetini oku, bilmediğin kelimelere sözlükten bak, sonra soruları çöz. Her soruda önce 💡 ipucuna, sonra ✅ cevaba bak.</p>
-<div class="row"><button class="go" id="g1">📖 Konu Özeti</button><button class="go alt" id="g4">📚 Sözlük</button><button class="go alt" id="g2">📋 Soru Menüsü</button><button class="go alt" id="g3">❓ 1. Soru</button></div></div>`;
-$("#g1").onclick=()=>{mode="learn";si=0;draw()};$("#g4").onclick=()=>{mode="gloss";gi=0;draw()};$("#g2").onclick=()=>{mode="menu";draw()};$("#g3").onclick=()=>{mode="quiz";qi=0;draw()};
+<div class="row"><button class="go" id="g1">📖 Konu Özeti</button><button class="go alt" id="g5">🎯 Pekiştirme İstasyonu</button><button class="go alt" id="g4">📚 Sözlük</button><button class="go alt" id="g2">📋 Soru Menüsü</button><button class="go alt" id="g3">❓ 1. Soru</button></div></div>`;
+$("#g1").onclick=()=>{mode="learn";si=0;draw()};$("#g5").onclick=()=>{mode="ist";draw()};$("#g4").onclick=()=>{mode="gloss";gi=0;draw()};$("#g2").onclick=()=>{mode="menu";draw()};$("#g3").onclick=()=>{mode="quiz";qi=0;draw()};
 $("#pv").disabled=true;$("#nx").disabled=false;D.innerHTML="";}
 
 function learn(){
@@ -171,12 +172,23 @@ try{
 }catch(e){toast(e&&e.code=="declined"?"İndirme iptal edildi.":e&&e.code=="rate_limited"?"Biraz bekleyip tekrar deneyin.":"PDF oluşturulamadı. İnternet bağlantısını kontrol edip tekrar deneyin.")}
 finally{busy=false}}
 
+/* Pekiştirme İstasyonu: motor/istasyon.js (çizici) ve yazılı klasöründeki istasyon.js (içerik) ilk açılışta yüklenir */
+let istY=false;
+function istv(){
+ if(window.ISTASYON&&typeof IST!=="undefined"){document.body.classList.add("ist");ISTASYON.ciz(Z,{veri:IST,ad:B.dosya||"yazili",oc:HAS_OC?OC:[],ocn:typeof OCN!=="undefined"?OCN:[],geri:()=>{mode="home";draw()}});$("#pv").disabled=true;$("#nx").disabled=true;D.innerHTML="";return}
+ Z.innerHTML='<div class="hero"><div class="big">🎯</div><h2>İstasyonlar hazırlanıyor…</h2></div>';
+ if(istY)return;istY=true;
+ const ms=document.querySelector('script[src*="motor/motor.js"]'),q=ms?(ms.src.match(/\?.*$/)||[""])[0]:"";
+ const yukle=(u,ok)=>{const sc=document.createElement("script");sc.src=u;sc.onload=()=>ok(true);sc.onerror=()=>ok(false);document.head.appendChild(sc)};
+ const son=()=>{istY=false;if(window.ISTASYON&&typeof IST!=="undefined"){lk="";if(mode=="ist")draw()}else{toast("Bu yazılı için istasyon henüz hazır değil.");mode="home";draw()}};
+ const veri=()=>typeof IST!=="undefined"?son():yukle(new URL("istasyon.js"+q,location.href).href,son);
+ window.ISTASYON?veri():yukle(ms?ms.src.replace(/motor\.js.*$/,"istasyon.js")+q:"",ok=>ok?veri():son())}
 function draw(){const key=mode+si+qi+gi;if(key!=lk){lk=key;z=1;tx=ty=0;ap();$("#main").scrollTop=0}
-["tl","tg","tm","tq","tp"].forEach((id,i)=>$("#"+id).classList.toggle("on",mode==["learn","gloss","menu","quiz","pdf"][i]));
-$("#nx").textContent="İleri ▶";({home,learn,gloss,menu,quiz,pdf:pdfv})[mode]()}
+["tl","tg","tm","tq","ti","tp"].forEach((id,i)=>$("#"+id).classList.toggle("on",mode==["learn","gloss","menu","quiz","ist","pdf"][i]));document.body.classList.toggle("ist",mode=="ist");
+$("#nx").textContent="İleri ▶";({home,learn,gloss,menu,quiz,ist:istv,pdf:pdfv})[mode]()}
 
 $("#hm").onclick=()=>{try{if(window.parent!==window&&parent.BTY_EV)return parent.BTY_EV()}catch(e){}const m=location.pathname.match(/dersler\/([^/]+)\//);location.href=KOK+"index.html"+(m?"#"+m[1]:"")};
-$("#tl").onclick=()=>{mode="learn";draw()};$("#tg").onclick=()=>{mode="gloss";draw()};$("#tq").onclick=()=>{mode="quiz";draw()};$("#tm").onclick=()=>{mode="menu";draw()};$("#tp").onclick=()=>askPw(()=>{mode="pdf";draw()});
+$("#tl").onclick=()=>{mode="learn";draw()};$("#tg").onclick=()=>{mode="gloss";draw()};$("#tq").onclick=()=>{mode="quiz";draw()};$("#ti").onclick=()=>{mode="ist";draw()};$("#tm").onclick=()=>{mode="menu";draw()};$("#tp").onclick=()=>askPw(()=>{mode="pdf";draw()});
 $("#pv").onclick=()=>{if(mode=="learn"){if(si>0)si--;else mode="home"}else if(mode=="gloss"){if(gi>0)gi--;else{mode="learn";si=S.length-1}}else if(mode=="quiz"){if(qi>0)qi--;else mode="menu"}else if(mode=="menu"){mode="gloss";gi=WN-1}else if(mode=="pdf")mode="menu";draw()};
 $("#nx").onclick=()=>{if(mode=="home"){mode="learn";si=0}else if(mode=="learn"){if(si<S.length-1)si++;else{mode="gloss";gi=0}}else if(mode=="gloss"){if(gi<WN-1)gi++;else mode="menu"}else if(mode=="menu"){mode="quiz";qi=0}else if(mode=="quiz"){
  if(st[qi]<2){st[qi]++}else if(qi<Q.length-1)qi++;else mode="menu"}else return;draw()};
