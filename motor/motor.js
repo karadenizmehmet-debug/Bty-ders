@@ -159,10 +159,10 @@ function buildDoc(list,withA,L,pc){const PW=539,body=[];
   body.push({stack:blk,unbreakable:true,margin:[0,i?L.qg:0,0,0]});
  });
  return{pageSize:"A4",pageMargins:[28,28,28,32],info:{title:B.ders+" "+B.sinav+" "+(withA?"Soru ve Cevaplar":"Sorular"),author:"Mehmet Karadeniz, 2026-2027"},
-  content:[{columns:[{stack:[{text:B.pdfBaslik,fontSize:15,bold:true,color:"#3b2b8f"},{text:B.sinav+" · "+(withA?"Sorular ve Cevaplar":"Sorular"),fontSize:11,color:"#555"}]},
+  content:[{columns:[{stack:[{text:B.pdfBaslik,fontSize:15,bold:true,color:"#3b2b8f"}]},
     withA?{text:""}:{text:"Ad Soyad: ..........................   Sınıf/No: ........",fontSize:10,alignment:"right",margin:[0,4,0,0]}],columnGap:8},
    {canvas:[{type:"line",x1:0,y1:0,x2:PW,y2:0,lineWidth:1.2,lineColor:"#3b2b8f"}],margin:[0,5,0,10]},...body],
-  footer:(c,t)=>{pc.n=t;return{columns:[{text:"© Mehmet Karadeniz, 2026-2027",fontSize:7.5,color:"#888"},{text:c+" / "+t,alignment:"right",fontSize:7.5,color:"#888"}],margin:[28,12,28,0]}},
+  footer:(c,t)=>{pc.n=t;return{columns:[{text:""},{text:c+" / "+t,alignment:"right",fontSize:7.5,color:"#888"}],margin:[28,12,28,0]}},
   defaultStyle:{font:"Roboto"}}}
 async function makePdf(withA,lvl){
 if(busy)return;busy=true;toast("PDF hazırlanıyor…");
