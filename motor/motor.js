@@ -94,15 +94,18 @@ $("#pv").disabled=false;$("#nx").disabled=false;$("#nx").textContent=qi==Q.lengt
 dots(Q.length,qi,i=>st[i]==2?"a":st[i]==1?"h":"",i=>{qi=i;draw()});}
 
 /* ---------- PDF ---------- */
+let pdfGv=true;/* true: görselli, false: görselsiz (2 sayfaya sığar) */
+const hasG=Q.some(x=>x.g);
 function pdfv(){
 const n=sel.filter(Boolean).length;
 const lbl=HAS_OC?`Sınav dağılımına göre 10 soru<br><small style="font-weight:600;opacity:.85">${SEN.map((k,o)=>OC[o].slice(4)+"→"+k).join(" · ")}</small>`:"Hazır 10 soru (sadece sorular)";
 Z.innerHTML=`<div class="mtop"><h2>📄 PDF İndir</h2><span class="cnt">${n} soru seçili</span><button class="tab" id="pa">Tümünü Seç</button><button class="tab" id="pc">Temizle</button></div>
 <div class="pl" style="grid-template-rows:repeat(${Math.max(8,Math.ceil(Q.length/2))},1fr)">`+Q.map((x,i)=>`<button class="pi ${sel[i]?"on":""}" data-i="${i}"><span class="cb">${sel[i]?"✓":""}</span><b>${i+1}.</b> <span class="pt">${x.s}</span><span class="lv l${x.d}">${isF(x)?"Fikir":LVN[x.d]}</span></button>`).join("")+`</div>
-<div class="pb"><div class="pg2"><span class="pbl">Seçili sorular</span><button class="go sm" id="p1" ${n?"":"disabled"}>⬇️ Sorular + Cevaplar</button><button class="go alt sm" id="p2" ${n?"":"disabled"}>⬇️ Sadece Sorular</button></div>
+<div class="pb">${hasG?`<div class="pg2"><span class="pbl">PDF türü</span><button class="go sm ${pdfGv?"":"alt"}" id="gv1">🖼️ Görselli</button><button class="go sm ${pdfGv?"alt":""}" id="gv0">📄 Görselsiz · 2 sayfa</button></div>`:""}<div class="pg2"><span class="pbl">Seçili sorular</span><button class="go sm" id="p1" ${n?"":"disabled"}>⬇️ Sorular + Cevaplar</button><button class="go alt sm" id="p2" ${n?"":"disabled"}>⬇️ Sadece Sorular</button></div>
 <div class="pg2"><span class="pbl">${lbl}</span><button class="go sm k1" data-l="1">🟢 Basit</button><button class="go sm k2" data-l="2">🟡 Orta</button><button class="go sm k3" data-l="3">🔴 Zor</button></div></div>`;
 Z.querySelectorAll(".pi").forEach(b=>b.onclick=()=>{sel[+b.dataset.i]=!sel[+b.dataset.i];pdfv()});
 $("#pa").onclick=()=>{sel=sel.map(()=>true);pdfv()};$("#pc").onclick=()=>{sel=sel.map(()=>false);pdfv()};
+if(hasG){$("#gv1").onclick=()=>{pdfGv=true;pdfv()};$("#gv0").onclick=()=>{pdfGv=false;pdfv()}}
 $("#p1").onclick=()=>askPw(()=>makePdf(true));$("#p2").onclick=()=>askPw(()=>makePdf(false));
 Z.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>askPw(()=>{pickLevel(+b.dataset.l);pdfv();makePdf(false,LVN[+b.dataset.l])}));
 $("#pv").disabled=false;$("#nx").disabled=true;D.innerHTML="";}
@@ -141,12 +144,12 @@ function askPw(ok){if(unlocked)return ok();const w=$("#pw"),i=$("#pwi"),er=$("#p
  $("#pwok").onclick=tryIt;$("#pwno").onclick=done;i.onkeydown=e=>{e.stopPropagation();if(e.key=="Enter")tryIt();if(e.key=="Escape")done()}}
 /* PDF: dar kenar boşlukları; 2 sayfayı geçerse yazı ve satırlar küçültülerek yeniden dizilir */
 /* Sığmazsa önce görseller, sonra yazı ve satırlar küçülür */
-const LV=[{fs:12.5,af:12,ln:3,lg:19,qg:12,gh:125},{fs:12,af:11.5,ln:3,lg:18,qg:10,gh:100},{fs:11.5,af:11,ln:2,lg:17,qg:9,gh:88},{fs:11,af:10.5,ln:2,lg:16,qg:8,gh:76},{fs:10.5,af:10,ln:1,lg:15,qg:7,gh:66},{fs:9.5,af:9.5,ln:1,lg:13,qg:5,gh:56}];
+const LV=[{fs:12.5,af:12,ln:3,lg:19,qg:12,gh:125},{fs:12,af:11.5,ln:3,lg:18,qg:10,gh:100},{fs:11.5,af:11,ln:2,lg:17,qg:9,gh:88},{fs:11,af:10.5,ln:2,lg:16,qg:8,gh:76},{fs:10.5,af:10,ln:1,lg:15,qg:7,gh:66},{fs:9.5,af:9.5,ln:1,lg:13,qg:5,gh:56}],LV_GS=[{fs:9,af:9,ln:1,lg:11,qg:4,gh:0},{fs:8.5,af:8.5,ln:1,lg:9,qg:3,gh:0}];
 function buildDoc(list,withA,L,pc){const PW=539,body=[];
  /* Her soru, cevabı (ya da cevap satırları) ile tek blok: sayfa sonunda bölünmez, gerekirse bütün olarak sonraki sayfaya geçer */
  list.forEach((x,i)=>{const blk=[];
   const qt={text:[{text:(i+1)+". ",bold:true,color:"#c2185b"},plain(x.q)],fontSize:L.fs,bold:true,margin:[0,0,0,4],lineHeight:1.2};
-  if(x.g&&window.GORSEL){const sv=GORSEL(x.g),m=sv.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/),r=m?m[1]/m[2]:1;
+  if(x.g&&window.GORSEL&&pdfGv){const sv=GORSEL(x.g),m=sv.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/),r=m?m[1]/m[2]:1;
    /* Geniş görsel sorunun altına, dar görsel sorunun sağına */
    if(r>1.8)blk.push(qt,{svg:sv,fit:[Math.min(PW-24,L.gh*0.8*r),L.gh*0.8],alignment:"center",margin:[12,0,0,6]});
    else{const gh=r<1?L.gh*1.6:L.gh,gw=Math.min(210,gh*r);blk.push({columns:[{width:"*",stack:[qt]},{width:gw,svg:sv,fit:[gw,gh]}],columnGap:12,margin:[0,0,0,4]})}}
@@ -166,8 +169,8 @@ if(busy)return;busy=true;toast("PDF hazırlanıyor…");
 try{
  if(!window.pdfMake||!pdfMake.vfs){const LB=document.querySelector('script[src*="motor/motor.js"]').src.replace(/motor\.js.*$/,"lib/");await loadJs(LB+"pdfmake.min.js");await loadJs(LB+"vfs_fonts.js")}
  const list=Q.filter((_,i)=>sel[i]);let blob,pc={n:0};
- for(const L of LV){pc={n:0};blob=await new Promise(r=>pdfMake.createPdf(buildDoc(list,withA,L,pc)).getBlob(r));if(pc.n<=2)break}
- await saveFile(B.dosya+(withA?"_Soru_Cevap":"_Sorular"+(lvl?"_"+lvl:""))+".pdf",blob);
+ for(const L of pdfGv?LV:LV.concat(LV_GS)){pc={n:0};blob=await new Promise(r=>pdfMake.createPdf(buildDoc(list,withA,L,pc)).getBlob(r));if(pc.n<=2)break}
+ await saveFile(B.dosya+(withA?"_Soru_Cevap":"_Sorular"+(lvl?"_"+lvl:""))+(hasG&&!pdfGv?"_Gorselsiz":"")+".pdf",blob);
  toast(pc.n>2?"PDF indirildi (çok soru seçildiği için "+pc.n+" sayfa).":lvl&&HAS_OC?"PDF indirildi ✅ Dağılım: "+SEN.map((n,o)=>OC[o].slice(4)+"→"+n).join(" · "):"PDF indirildi ✅");
 }catch(e){toast(e&&e.code=="declined"?"İndirme iptal edildi.":e&&e.code=="rate_limited"?"Biraz bekleyip tekrar deneyin.":"PDF oluşturulamadı. İnternet bağlantısını kontrol edip tekrar deneyin.")}
 finally{busy=false}}
