@@ -2,6 +2,8 @@
    BTY Ders · Çevrimdışı paket (tek HTML dosyası)
    Giriş sayfasının altındaki "HTML indir" düğmesi şifre sorar, sitedeki
    tüm dosyaları toplayıp internetsiz açılabilen tek bir .html üretir.
+   Ders sayfalarındaki PDF bölümü de aynı paketi window.BTY_PAKET_INDIR(kök)
+   ile indirir (PDF bölümü zaten şifreyle açıldığı için orada ayrıca sorulmaz).
    © Mehmet Karadeniz, 2026-2027
    ============================================================ */
 (function(){
@@ -27,8 +29,9 @@ st.textContent=`.pk{display:inline-block;margin-top:10px;border:1px solid #fffff
 #pkw button{border:0;border-radius:30px;padding:10px 18px;font-size:16px;font-weight:800;color:#fff;background:linear-gradient(90deg,#ff6b9d,#8a5cff);cursor:pointer}
 #pkw button.v{background:#ffffff1c}#pkw button:disabled{opacity:.5}`;
 document.head.appendChild(st);
+window.BTY_PAKET_INDIR=indir;
 const ft=document.querySelector("footer");
-if(ft){const b=document.createElement("button");b.className="pk";b.textContent="⬇ HTML indir (internetsiz açmak için)";b.onclick=ac;ft.appendChild(document.createElement("br"));ft.appendChild(b)}
+if(ft&&typeof DERSLER!=="undefined"){const b=document.createElement("button");b.className="pk";b.textContent="⬇ HTML indir (internetsiz açmak için)";b.onclick=ac;ft.appendChild(document.createElement("br"));ft.appendChild(b)}
 
 function ac(){
  const w=document.createElement("div");w.id="pkw";
@@ -39,13 +42,14 @@ function ac(){
  const kapat=()=>w.remove();
  const dene=async()=>{if(hash("bty-ders:"+i.value.trim())!==PWH){e.hidden=false;e.textContent="Şifre yanlış, tekrar deneyin.";i.value="";i.focus();return}
   ok.disabled=true;ok.textContent="Hazırlanıyor…";e.hidden=true;
-  try{await indir();kapat()}catch(x){e.hidden=false;e.textContent="Hazırlanamadı. İnternet bağlantısını kontrol edip tekrar deneyin.";ok.disabled=false;ok.textContent="İndir"}};
+  try{await indir("");kapat()}catch(x){e.hidden=false;e.textContent="Hazırlanamadı. İnternet bağlantısını kontrol edip tekrar deneyin.";ok.disabled=false;ok.textContent="İndir"}};
  ok.onclick=dene;w.querySelector('[data-k="0"]').onclick=kapat;i.onkeydown=k=>{if(k.key=="Enter")dene();if(k.key=="Escape")kapat()};
  w.onclick=k=>{if(k.target===w)kapat()}}
 
 /* ---------- paketleme ---------- */
-async function al(yol){const r=await fetch(yol+"?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error(yol);return r.text()}
-async function indir(){
+async function indir(kok){
+ kok=kok||"";
+ const al=async yol=>{const r=await fetch(kok+yol+"?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error(yol);return r.text()};
  const ad=["surum.js","katalog.js","giris/giris.css","giris/giris.js","motor/motor.css","motor/motor.js","motor/gorsel.js","motor/istasyon.js","motor/lib/pdfmake.min.js","motor/lib/vfs_fonts.js"];
  const F={};await Promise.all(ad.map(async a=>F[a]=await al(a)));
  const V={},IS={};

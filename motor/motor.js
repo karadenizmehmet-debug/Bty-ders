@@ -102,12 +102,13 @@ const lbl=HAS_OC?`Sınav dağılımına göre 10 soru<br><small style="font-weig
 Z.innerHTML=`<div class="mtop"><h2>📄 PDF İndir</h2><span class="cnt">${n} soru seçili</span><button class="tab" id="pa">Tümünü Seç</button><button class="tab" id="pc">Temizle</button></div>
 <div class="pl" style="grid-template-rows:repeat(${Math.max(8,Math.ceil(Q.length/2))},1fr)">`+Q.map((x,i)=>`<button class="pi ${sel[i]?"on":""}" data-i="${i}"><span class="cb">${sel[i]?"✓":""}</span><b>${i+1}.</b> <span class="pt">${x.s}</span><span class="lv l${x.d}">${isF(x)?"Fikir":LVN[x.d]}</span></button>`).join("")+`</div>
 <div class="pb">${hasG?`<div class="pg2"><span class="pbl">PDF türü</span><button class="go sm ${pdfGv?"":"alt"}" id="gv1">🖼️ Görselli</button><button class="go sm ${pdfGv?"alt":""}" id="gv0">📄 Görselsiz · 2 sayfa</button></div>`:""}<div class="pg2"><span class="pbl">Seçili sorular</span><button class="go sm" id="p1" ${n?"":"disabled"}>⬇️ Sorular + Cevaplar</button><button class="go alt sm" id="p2" ${n?"":"disabled"}>⬇️ Sadece Sorular</button></div>
-<div class="pg2"><span class="pbl">${lbl}</span><button class="go sm k1" data-l="1">🟢 Basit</button><button class="go sm k2" data-l="2">🟡 Orta</button><button class="go sm k3" data-l="3">🔴 Zor</button></div></div>`;
+<div class="pg2"><span class="pbl">${lbl}</span><button class="go sm k1" data-l="1">🟢 Basit</button><button class="go sm k2" data-l="2">🟡 Orta</button><button class="go sm k3" data-l="3">🔴 Zor</button></div>${PAKETTE?"":`<div class="pg2"><span class="pbl">Tüm dersler, internetsiz</span><button class="go alt sm" id="ph">💾 HTML indir</button></div>`}</div>`;
 Z.querySelectorAll(".pi").forEach(b=>b.onclick=()=>{sel[+b.dataset.i]=!sel[+b.dataset.i];pdfv()});
 $("#pa").onclick=()=>{sel=sel.map(()=>true);pdfv()};$("#pc").onclick=()=>{sel=sel.map(()=>false);pdfv()};
 if(hasG){$("#gv1").onclick=()=>{pdfGv=true;pdfv()};$("#gv0").onclick=()=>{pdfGv=false;pdfv()}}
 $("#p1").onclick=()=>askPw(()=>makePdf(true));$("#p2").onclick=()=>askPw(()=>makePdf(false));
 Z.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>askPw(()=>{pickLevel(+b.dataset.l);pdfv();makePdf(false,LVN[+b.dataset.l])}));
+if(!PAKETTE)$("#ph").onclick=()=>askPw(htmlIndir);
 $("#pv").disabled=false;$("#nx").disabled=true;D.innerHTML="";}
 
 const shuf=a=>{for(let j=a.length-1;j>0;j--){const r=Math.floor(Math.random()*(j+1));[a[j],a[r]]=[a[r],a[j]]}return a};
@@ -164,6 +165,18 @@ function buildDoc(list,withA,L,pc){const PW=539,body=[];
    {canvas:[{type:"line",x1:0,y1:0,x2:PW,y2:0,lineWidth:1.2,lineColor:"#3b2b8f"}],margin:[0,5,0,10]},...body],
   footer:(c,t)=>{pc.n=t;return{columns:[{text:""},{text:c+" / "+t,alignment:"right",fontSize:7.5,color:"#888"}],margin:[28,12,28,0]}},
   defaultStyle:{font:"Roboto"}}}
+/* Çevrimdışı paket: sitedeki tüm dersleri tek .html dosyasında indirir (giris/paket.js).
+   İndirilen dosyanın içinde bu düğme gösterilmez; orada internet yoktur. */
+const PAKETTE=(()=>{try{return !!(window.BTY_PAKET||parent.BTY_PAKET)}catch(e){return false}})();
+async function htmlIndir(){
+if(busy)return;busy=true;toast("HTML hazırlanıyor… (tüm dersler)");
+try{
+ if(typeof DERSLER==="undefined")await loadJs(KOK+"katalog.js?t="+Date.now());
+ if(!window.BTY_PAKET_INDIR)await loadJs(KOK+"giris/paket.js?t="+Date.now());
+ await window.BTY_PAKET_INDIR(KOK);
+ toast("HTML indirildi ✅ İnternetsiz açmak için dosyaya çift tıklayın.");
+}catch(e){toast("HTML hazırlanamadı. İnternet bağlantısını kontrol edip tekrar deneyin.")}
+finally{busy=false}}
 async function makePdf(withA,lvl){
 if(busy)return;busy=true;toast("PDF hazırlanıyor…");
 try{
