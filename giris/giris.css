@@ -29,3 +29,15 @@ h2{font-size:clamp(26px,3.4vw,48px);margin-bottom:6px;text-wrap:balance}
 .ver{font-size:clamp(13px,1.2vw,16px);font-weight:800;color:#14162e;background:var(--hint);border-radius:20px;padding:4px 12px}
 footer{text-align:center;font-size:12px;opacity:.55;margin-top:24px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---- Açık mod (varsayılan koyu kalır; anahtar: bty-tema) ---- */
+:root[data-theme="light"]{color-scheme:light;--bg:#eef0fa;--card:#ffffff;--ac:#d6336c;--ac2:#0b7fa8;--ok:#0f8a5f;--hint:#ffd166;--tx:#171a3a;--mut:#4a4f78}
+:root[data-theme="light"] body{background:transparent!important;color:#171a3a!important}
+:root[data-theme="light"]{background:radial-gradient(circle at 20% 10%,#dfe3ff,#eef0fa 60%) fixed;background-color:#eef0fa}
+:root[data-theme="light"] .btn{background:#14162e14}
+:root[data-theme="light"] .btn:hover{background:#14162e22}
+:root[data-theme="light"] .card{border-color:#14162e1a;background:linear-gradient(160deg,#ffffff,#f1f3ff)}
+:root[data-theme="light"] .card.off:hover{border-color:#14162e1a}
+:root[data-theme="light"] .ver{color:#14162e}
+:root[data-theme="light"] .pk{border-color:#14162e33}
+:root[data-theme="light"] .pk:hover{background:#14162e14}

@@ -103,6 +103,17 @@ const CSS=`
 .port .ibig{font-size:70px}.port .isonuc h2{font-size:30px}.port .istar{font-size:44px}.port .isonuc p{font-size:18px}
 .port .iact{margin-top:6px}.port .iact .go{width:100%}
 .port .isonuc .row{width:100%}
+/* ---- Açık mod: Pekiştirme İstasyonu ---- */
+:root[data-theme="light"] .ich,:root[data-theme="light"] .isc{background:#0b7fa81a;border-color:#0b7fa888}
+:root[data-theme="light"] .ich.sel{background:#b57a0030;border-color:var(--hint)}
+:root[data-theme="light"] .ibl{background:#14162e10;border-color:#b57a0099}
+:root[data-theme="light"] .ibl.sel{background:#b57a0030}
+:root[data-theme="light"] .ibl.m,:root[data-theme="light"] .ie.m{color:#fff}
+:root[data-theme="light"] .isp{border-color:#14162e33;color:#14162e88}
+:root[data-theme="light"] .isp .n{background:#14162e1a}
+:root[data-theme="light"] .isp.f{background:#0f8a5f1a}
+:root[data-theme="light"] .isp.f .n{color:#fff}
+:root[data-theme="light"] .ikl textarea{background:#14162e0d;border-color:#14162e2a}
 `;
 const TUR=[
  {k:"vaka",ad:"Bilim Dedektifi",ik:"🔍",ac:"Vaka dosyasını aç, ipuçlarını topla, doğru sonuca ulaş. Gerçek olaylardan ve günlük hayattan vakalar.",say:v=>v.length+" vaka"},

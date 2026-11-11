@@ -1,8 +1,9 @@
 /* Giriş sayfası · ders ve yazılı seçimi. © Mehmet Karadeniz, 2026-2027 */
-document.body.insertAdjacentHTML("afterbegin",`<header><h1>💻 BTY Yazılıya Hazırlık</h1><span class="ver" id="ver"></span><button class="btn" id="geri" hidden>◀ Dersler</button><button class="btn" id="fs" title="Tam ekran" aria-label="Tam ekran">⛶</button></header>
+document.body.insertAdjacentHTML("afterbegin",`<header><h1>💻 BTY Yazılıya Hazırlık</h1><span class="ver" id="ver"></span><button class="btn" id="geri" hidden>◀ Dersler</button><button class="btn" id="tema"></button><button class="btn" id="fs" title="Tam ekran" aria-label="Tam ekran">⛶</button></header>
 <main id="ana"></main>
 <footer>© Mehmet Karadeniz, 2026-2027</footer>`);
 (function(){
+try{btyTemaDugme(document.getElementById("tema"))}catch(e){}
 try{document.getElementById("ver").textContent=SURUM}catch(e){}
 const ana=document.getElementById("ana"),geri=document.getElementById("geri");
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
