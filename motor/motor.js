@@ -26,7 +26,7 @@ document.body.insertAdjacentHTML("afterbegin",`<div id="stage">
 <button class="tab" id="tq"><i>❓</i> <span>Sorular</span></button>
 <button class="tab" id="ti"><i>🎯</i> <span>İstasyon</span></button>
 <button class="tab" id="tp"><i>📄</i> <span>PDF</span></button>
-<button class="tab zb" id="zm" title="Uzaklaştır">🔍−</button><button class="tab zb" id="zl" title="Yakınlaştırmayı sıfırla">100%</button><button class="tab zb" id="zp" title="Yakınlaştır">🔍+</button><button class="tab zb" id="tema"></button><button class="tab zb" id="fs" title="Tam ekran"><i>⛶</i><span>Ekran</span></button></div>
+<button class="tab zb" id="zm" title="Uzaklaştır">🔍−</button><button class="tab zb" id="zl" title="Yakınlaştırmayı sıfırla">100%</button><button class="tab zb" id="zp" title="Yakınlaştır">🔍+</button><button class="tab zb" id="paylas"></button><button class="tab zb" id="tema"></button><button class="tab zb" id="fs" title="Tam ekran"><i>⛶</i><span>Ekran</span></button></div>
 <div id="main"><div id="zin"></div></div>
 <div id="nav"><button id="pv">◀ Geri</button><div id="dots"></div><button id="nx">İleri ▶</button></div>
 <div id="cr">© Mehmet Karadeniz, 2026-2027</div>
@@ -37,7 +37,7 @@ document.body.insertAdjacentHTML("afterbegin",`<div id="stage">
 <div class="pwr"><button class="go alt" id="pwno">Vazgeç</button><button class="go" id="pwok">Aç</button></div></div></div>
 </div>`);
 
-try{btyTemaDugme(document.getElementById("tema"))}catch(e){}
+try{btyTemaDugme(document.getElementById("tema"));btyPaylasDugme(document.getElementById("paylas"))}catch(e){}
 const WP=12,WN=Math.ceil(W.length/WP),LVN={1:"Basit",2:"Orta",3:"Zor"};
 let sel=Q.map(()=>true);
 
